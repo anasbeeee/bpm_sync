@@ -1,103 +1,110 @@
-// Smooth scroll pour les ancres
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+// ===== Scroll smooth quand on clique sur un lien interne =====
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+
+        const cible = document.querySelector(this.getAttribute('href'));
+
+        if (cible) {
+            cible.scrollIntoView({ behavior: 'smooth' });
         }
     });
 });
 
-// Mise à jour des valeurs des sliders en temps réel
+
+// ===== Récup sliders =====
 const bpmSlider = document.getElementById('bpm');
 const tempSlider = document.getElementById('temperature');
 const sweatSlider = document.getElementById('sweat');
 const lightSlider = document.getElementById('light');
 
+// ===== Récup affichage valeurs =====
 const bpmValue = document.getElementById('bpm-value');
 const tempValue = document.getElementById('temperature-value');
 const sweatValue = document.getElementById('sweat-value');
 const lightValue = document.getElementById('light-value');
 
-bpmSlider.addEventListener('input', (e) => {
+
+// ===== Update affichage sliders en live =====
+bpmSlider.addEventListener('input', e => {
     bpmValue.textContent = e.target.value + ' BPM';
 });
 
-tempSlider.addEventListener('input', (e) => {
+tempSlider.addEventListener('input', e => {
     tempValue.textContent = parseFloat(e.target.value).toFixed(1) + '°C';
 });
 
-sweatSlider.addEventListener('input', (e) => {
+sweatSlider.addEventListener('input', e => {
     sweatValue.textContent = e.target.value + '%';
 });
 
-lightSlider.addEventListener('input', (e) => {
+lightSlider.addEventListener('input', e => {
     lightValue.textContent = e.target.value + '%';
 });
 
-// Fonction principale de génération de playlist
+
+// ===== Génération playlist =====
 function generatePlaylist() {
+
     const bpm = parseInt(bpmSlider.value);
     const temp = parseFloat(tempSlider.value);
     const sweat = parseInt(sweatSlider.value);
     const light = parseInt(lightSlider.value);
-    
-    // Animation du bouton
-    const button = document.querySelector('.generate-button');
-    const originalContent = button.innerHTML;
-    button.innerHTML = '<span>Analyse en cours...</span> <span>⏳</span>';
-    button.style.pointerEvents = 'none';
-    
+
+    // Animation bouton
+    const bouton = document.querySelector('.generate-button');
+    const texteOriginal = bouton.innerHTML;
+
+    bouton.innerHTML = '<span>Analyse en cours...</span> <span>⏳</span>';
+    bouton.style.pointerEvents = 'none';
+
     setTimeout(() => {
-        // Calcul de l'intensité physique (0-3)
-        const physicalIntensity = calculatePhysicalIntensity(bpm, temp, sweat);
-        
-        // Détermination du contexte (jour/nuit)
-        const isNight = light < 30;
-        const isBright = light > 70;
-        
-        // Sélection du style musical
-        const musicStyle = determineMusicStyle(physicalIntensity, isNight, isBright, light);
-        
-        // Mise à jour de l'affichage
-        updateMoodDisplay(musicStyle);
-        updateMusicResult(musicStyle);
-        updatePlaylist(musicStyle);
-        
-        // Restaurer le bouton
-        button.innerHTML = originalContent;
-        button.style.pointerEvents = 'auto';
-        
-        // Scroll vers les résultats
-        document.getElementById('music-result').scrollIntoView({ 
+
+        const intensite = calculatePhysicalIntensity(bpm, temp, sweat);
+
+        const nuit = light < 30;
+        const pleinJour = light > 70;
+
+        const style = determineMusicStyle(intensite, nuit, pleinJour, light);
+
+        updateMoodDisplay(style);
+        updateMusicResult(style);
+        updatePlaylist(style);
+
+        bouton.innerHTML = texteOriginal;
+        bouton.style.pointerEvents = 'auto';
+
+        document.getElementById('music-result').scrollIntoView({
             behavior: 'smooth',
             block: 'nearest'
         });
+
     }, 1000);
 }
 
-// Calcul de l'intensité physique
+
+// ===== Calcul intensité physique =====
 function calculatePhysicalIntensity(bpm, temp, sweat) {
-    // Normalisation des valeurs (0-1)
-    const bpmNorm = (bpm - 60) / 120; // 60-180 BPM
-    const tempNorm = (temp - 36) / 4; // 36-40°C
+
+    const bpmNorm = (bpm - 60) / 120;
+    const tempNorm = (temp - 36) / 4;
     const sweatNorm = sweat / 100;
-    
-    // Moyenne pondérée (BPM compte plus)
-    const intensity = (bpmNorm * 0.5) + (tempNorm * 0.25) + (sweatNorm * 0.25);
-    
-    // Classification en 4 niveaux
-    if (intensity > 0.75) return 3; // Très intense
-    if (intensity > 0.5) return 2;  // Intense
-    if (intensity > 0.25) return 1; // Modéré
-    return 0; // Repos
+
+    const intensite = (bpmNorm * 0.5) + (tempNorm * 0.25) + (sweatNorm * 0.25);
+
+    if (intensite > 0.75) return 3;
+    if (intensite > 0.5) return 2;
+    if (intensite > 0.25) return 1;
+
+    return 0;
 }
 
-// Détermination du style musical
+
+// ===== Styles musicaux =====
 function determineMusicStyle(intensity, isNight, isBright, light) {
+
     const styles = {
-        // Très haute intensité (sport intense)
+
         highIntensity: {
             icon: '🔥',
             mood: 'Haute Intensité',
@@ -115,8 +122,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
                 { icon: '🚀', name: 'Lose Yourself', artist: 'Eminem' }
             ]
         },
-        
-        // Intensité élevée (cardio, running)
+
         mediumIntensity: {
             icon: '⚡',
             mood: 'Énergie Dynamique',
@@ -134,8 +140,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
                 { icon: '🎶', name: 'Uptown Funk', artist: 'Bruno Mars' }
             ]
         },
-        
-        // Intensité modérée (marche rapide, yoga dynamique)
+
         lowIntensity: {
             icon: '🌟',
             mood: 'Activité Modérée',
@@ -153,8 +158,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
                 { icon: '🌈', name: 'Good Days', artist: 'SZA' }
             ]
         },
-        
-        // Repos nocturne (sommeil, méditation nuit)
+
         nightRest: {
             icon: '🌙',
             mood: 'Mode Nocturne',
@@ -172,8 +176,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
                 { icon: '✨', name: 'Clair de Lune', artist: 'Debussy' }
             ]
         },
-        
-        // Repos jour (relaxation, lecture)
+
         dayRest: {
             icon: '😌',
             mood: 'Détente Diurne',
@@ -192,56 +195,50 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             ]
         }
     };
-    
-    // Logique de sélection du style
-    if (intensity === 3) {
-        return styles.highIntensity;
-    } else if (intensity === 2) {
-        return styles.mediumIntensity;
-    } else if (intensity === 1) {
-        return styles.lowIntensity;
-    } else {
-        // Intensité 0 (repos) - différencier jour/nuit
-        if (isNight) {
-            return styles.nightRest;
-        } else {
-            return styles.dayRest;
-        }
-    }
+
+    if (intensity === 3) return styles.highIntensity;
+    if (intensity === 2) return styles.mediumIntensity;
+    if (intensity === 1) return styles.lowIntensity;
+
+    return isNight ? styles.nightRest : styles.dayRest;
 }
 
-// Mise à jour de l'affichage de l'ambiance
+
+// ===== Update affichage =====
 function updateMoodDisplay(style) {
     document.getElementById('mood-icon').textContent = style.icon;
     document.getElementById('mood-title').textContent = style.mood;
     document.getElementById('mood-description').textContent = style.moodDesc;
 }
 
-// Mise à jour des résultats musicaux
 function updateMusicResult(style) {
-    // Genre
-    document.getElementById('genre-display').querySelector('.genre-icon').textContent = style.genreIcon;
+
+    document.querySelector('#genre-display .genre-icon').textContent = style.genreIcon;
     document.getElementById('genre-name').textContent = style.genre;
     document.getElementById('genre-description').textContent = style.description;
-    
-    // Stats
+
     document.getElementById('tempo-value').textContent = style.tempo;
     document.getElementById('intensity-value').textContent = style.intensity;
     document.getElementById('ambiance-value').textContent = style.ambiance;
 }
 
-// Mise à jour de la playlist
+
+// ===== Update playlist =====
 function updatePlaylist(style) {
-    const playlistContainer = document.getElementById('playlist-items');
-    playlistContainer.innerHTML = '';
-    
+
+    const conteneur = document.getElementById('playlist-items');
+    conteneur.innerHTML = '';
+
     style.tracks.forEach((track, index) => {
+
         setTimeout(() => {
+
             const item = document.createElement('div');
             item.className = 'playlist-item';
+
             item.style.opacity = '0';
             item.style.transform = 'translateX(-20px)';
-            
+
             item.innerHTML = `
                 <div class="track-icon">${track.icon}</div>
                 <div class="track-info">
@@ -249,117 +246,78 @@ function updatePlaylist(style) {
                     <div class="track-artist">${track.artist}</div>
                 </div>
             `;
-            
-            playlistContainer.appendChild(item);
-            
+
+            conteneur.appendChild(item);
+
             setTimeout(() => {
                 item.style.transition = 'all 0.4s ease';
                 item.style.opacity = '1';
                 item.style.transform = 'translateX(0)';
             }, 50);
+
         }, index * 100);
     });
 }
 
-// Animation du visualiseur audio
+
+// ===== Visualizer audio =====
 function animateVisualizer() {
+
     const bars = document.querySelectorAll('.visualizer .bar');
-    
+
     setInterval(() => {
         bars.forEach(bar => {
-            const randomHeight = Math.random() * 100 + 40;
-            bar.style.height = randomHeight + '%';
+            bar.style.height = (Math.random() * 100 + 40) + '%';
         });
     }, 300);
 }
 
-// Lancer l'animation du visualiseur au chargement
 window.addEventListener('load', animateVisualizer);
 
-// Gestion des modals
-function openModal(plan) {
-    const modal = document.getElementById('modal');
-    const title = document.getElementById('modal-title');
-    const text = document.getElementById('modal-text');
-    
-    const plans = {
-        'free': {
-            title: '🎉 Version Gratuite',
-            text: 'Parfait pour commencer ! Téléchargez l\'application et découvrez la synchronisation musicale biométrique dès maintenant.'
-        },
-        'premium': {
-            title: '⭐ Premium',
-            text: 'Débloquez toutes les fonctionnalités avancées et profitez d\'une expérience musicale optimale avec des playlists IA personnalisées !'
-        },
-        'pro': {
-            title: '🏆 Pro',
-            text: 'L\'offre ultime pour les professionnels et athlètes exigeants. Coaching musical personnalisé et analyses en temps réel.'
-        }
-    };
-    
-    title.textContent = plans[plan].title;
-    text.textContent = plans[plan].text;
-    modal.classList.add('active');
-}
 
-function closeModal() {
-    document.getElementById('modal').classList.remove('active');
-}
-
-// Fermer modal en cliquant à l'extérieur
-document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeModal();
-    }
-});
-
-// Fermer modal avec Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeModal();
-    }
-});
-
-// Gestion du formulaire de contact
+// ===== Formulaire contact =====
 function handleSubmit(e) {
+
     e.preventDefault();
-    
-    const button = e.target.querySelector('.submit-button');
-    const originalText = button.innerHTML;
-    
-    button.innerHTML = '<span>✓ Message Envoyé !</span>';
-    button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-    
+
+    const bouton = e.target.querySelector('.submit-button');
+    const texteOriginal = bouton.innerHTML;
+
+    bouton.innerHTML = '<span>✓ Message Envoyé !</span>';
+    bouton.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+
     setTimeout(() => {
-        button.innerHTML = originalText;
-        button.style.background = '';
+        bouton.innerHTML = texteOriginal;
+        bouton.style.background = '';
         e.target.reset();
     }, 3000);
 }
 
-// Animation des éléments au scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
 
-const observer = new IntersectionObserver((entries) => {
+// ===== Animations scroll =====
+const observer = new IntersectionObserver(entries => {
+
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
         }
     });
-}, observerOptions);
 
-// Observer tous les éléments qui doivent s'animer
+}, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.feature-card, .pricing-card');
-    
-    animatedElements.forEach(el => {
+
+    const elements = document.querySelectorAll('.feature-card');
+
+    elements.forEach(el => {
+
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease';
+
         observer.observe(el);
     });
+
 });
