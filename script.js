@@ -170,7 +170,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             intensity: 'Très Faible',
             ambiance: 'Nocturne',
             tracks: [
-                { icon: '🌙', name: 'Weightless', artist: 'Marconi Union' },
+                { icon: '🌙', name: 'Milgram', artist: "L'homme du fond" },
                 { icon: '⭐', name: 'Moonlight Sonata', artist: 'Beethoven' },
                 { icon: '🌌', name: 'Nocturne', artist: 'Chopin' },
                 { icon: '✨', name: 'Clair de Lune', artist: 'Debussy' }
@@ -264,12 +264,22 @@ function updatePlaylist(style) {
 function animateVisualizer() {
 
     const bars = document.querySelectorAll('.visualizer .bar');
+    let phase = 0;
 
-    setInterval(() => {
-        bars.forEach(bar => {
-            bar.style.height = (Math.random() * 100 + 40) + '%';
+    function animate() {
+
+        bars.forEach((bar, index) => {
+
+            const height = 60 + Math.sin(phase + index * 0.5) * 40;
+            bar.style.height = height + "%";
+
         });
-    }, 300);
+
+        phase += 0.05;
+        requestAnimationFrame(animate);
+    }
+
+    animate();
 }
 
 window.addEventListener('load', animateVisualizer);
