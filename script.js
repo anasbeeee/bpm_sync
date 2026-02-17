@@ -136,7 +136,7 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             tracks: [
                 { icon: '🌟', name: 'Billie Jean', artist: ' Micheal Jackson' },
                 { icon: '💫', name: 'Fortnite', artist: 'Kerian' },
-                { icon: '✨', name: 'YOASOBI', artist: 'oshi no ko' },
+                { icon: '✨', name: 'IDOL', artist: 'YOASOBI' },
                 { icon: '🎶', name: 'Finesse ', artist: 'Bruno Mars' }
             ]
         },
