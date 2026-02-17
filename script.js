@@ -152,9 +152,9 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             intensity: 'Modérée',
             ambiance: 'Détendue',
             tracks: [
-                { icon: '☀️', name: 'Sunflower', artist: 'Post Malone' },
+                { icon: '☀️', name: 'Annihilate', artist: 'Metro Boomin' },
                 { icon: '🌊', name: 'Ocean Eyes', artist: 'Billie Eilish' },
-                { icon: '🎧', name: 'Circles', artist: 'Post Malone' },
+                { icon: '🎧', name: 'Rises the moon', artist: 'Liana Flores' },
                 { icon: '🌈', name: 'Good Days', artist: 'SZA' }
             ]
         },
