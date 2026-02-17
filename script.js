@@ -111,15 +111,15 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             moodDesc: 'Effort maximal détecté - Besoin de puissance',
             genre: 'EDM / Hard Rock',
             genreIcon: '⚡',
-            description: 'Musique énergique et puissante pour performances extrêmes',
+            description: 'Musique énergique et puissante pour performances',
             tempo: '140-180 BPM',
             intensity: 'Maximum',
             ambiance: 'Explosive',
             tracks: [
-                { icon: '🔥', name: 'Thunderstruck', artist: 'AC/DC' },
-                { icon: '⚡', name: 'Till I Collapse', artist: 'Eminem' },
-                { icon: '💪', name: 'Eye of the Tiger', artist: 'Survivor' },
-                { icon: '🚀', name: 'Lose Yourself', artist: 'Eminem' }
+                { icon: '🔥', name: 'Paranoid', artist: '  Black Sabbath' },
+                { icon: '⚡', name: 'Hells bellsllapse', artist: 'AC/DC' },
+                { icon: '💪', name: 'Iron man', artist: 'Black Sabbath' },
+                { icon: '🚀', name: 'Prozaczopixan', artist: 'Vald' }
             ]
         },
 
@@ -134,10 +134,10 @@ function determineMusicStyle(intensity, isNight, isBright, light) {
             intensity: 'Élevée',
             ambiance: 'Motivante',
             tracks: [
-                { icon: '🌟', name: 'Blinding Lights', artist: 'The Weeknd' },
-                { icon: '💫', name: 'Levitating', artist: 'Dua Lipa' },
-                { icon: '✨', name: 'Don\'t Stop Me Now', artist: 'Queen' },
-                { icon: '🎶', name: 'Uptown Funk', artist: 'Bruno Mars' }
+                { icon: '🌟', name: 'Billie Jean', artist: ' Micheal Jackson' },
+                { icon: '💫', name: 'Fortnite', artist: 'Kerian' },
+                { icon: '✨', name: 'YOASOBI', artist: 'oshi no ko' },
+                { icon: '🎶', name: 'Finesse ', artist: 'Bruno Mars' }
             ]
         },
 
@@ -275,7 +275,7 @@ function animateVisualizer() {
 
         });
 
-        phase += 0.05;
+        phase += 0.05    ;
         requestAnimationFrame(animate);
     }
 
@@ -283,25 +283,6 @@ function animateVisualizer() {
 }
 
 window.addEventListener('load', animateVisualizer);
-
-
-// ===== Formulaire contact =====
-function handleSubmit(e) {
-
-    e.preventDefault();
-
-    const bouton = e.target.querySelector('.submit-button');
-    const texteOriginal = bouton.innerHTML;
-
-    bouton.innerHTML = '<span>✓ Message Envoyé !</span>';
-    bouton.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-
-    setTimeout(() => {
-        bouton.innerHTML = texteOriginal;
-        bouton.style.background = '';
-        e.target.reset();
-    }, 3000);
-}
 
 
 // ===== Animations scroll =====
