@@ -116,10 +116,10 @@ const genreQueries = {
         'Nekfeu officiel audio',
         'Damso officiel',
         'Hamza officiel audio',
-        'huntrill',
+        'huntrill , alpha wann, hologram lo , jungle jack',
         'PLK officiel audio',
-        'Lacrim officiel',
-        'Vald officiel audio'
+        'zoro le frerot, sch , sdm',
+        'Vald officiel audio , lacrim'
     ],
     'Metal': [
         'Metallica official',
