@@ -56,7 +56,7 @@ const genreQueries = {
         'Kendrick Lamar hits',
         'Travis Scott best songs',
         'Metro Boomin official',
-        'Hip hop workout motivation',
+        'young prolétaire',
         'Playboi Carti official',
         'Future official audio',
         'A$AP Rocky best tracks'
@@ -112,11 +112,11 @@ const genreQueries = {
         'classical piano popular'
     ],
     'Rap français': [
-        'Ninho officiel',
+        'Ninho , bigflo et oli',
         'Nekfeu officiel audio',
         'Damso officiel',
         'Hamza officiel audio',
-        'rap français populaire 2024',
+        'huntrill',
         'PLK officiel audio',
         'Lacrim officiel',
         'Vald officiel audio'
